@@ -1,6 +1,7 @@
 # Project Ignores
 templates/Logs/*
 templates/Keys/*
+templates/Cache/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
