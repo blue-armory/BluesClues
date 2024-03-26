@@ -14,29 +14,25 @@ _Ensure `PubkeyAuthentication yes` is uncommented in `/etc/ssh/sshd_config`_
 `cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys`  
 `systemctl restart sshd`  
 
-## Development
-- Set the notebook to automatically query for infrastructure information and store for future use
-- Define initial recon actions and perform initial recon
-- Do subsequent steps
-
 ## Considerations
 Had an issue when using variables generated dynamically (for example, getting 'ext_ip' and using in a subsequent cell) because a '\n' was appended to the end. I fixed this with a strip in the output, but unclear whether this should be handled on a case-by-case basis or if the newly created command format is handled poorly.
 
-
-## Version v1.1.0
+## Development
+### Version v1.1.0
 - Started InfraxSetup.ipynb
 - Added action templates and ability to execute from VM or local Windows host
 - Caching and Logging initial setup
 
-## Version v1.2.0
+### Version v1.2.0
 - Added 'skip' option to 'Action Template'
 - Moved global variables and most functions to separate file to allow multiple page access
 - **Currently working on Domain Categorization in 'InfraxSetup' 3/23/24**
 
 
-## TODO/Worklog
-### General
+### TODO/Worklog
+#### General
 - [ ] Finish project _4Head_
+- [ ] Set the notebook to automatically query for infrastructure information and store for future use
 - [x] Fix the "cell_executed" functionality to avoid re-running blocks that already have output associated (unless forced)
   - Added Jupyter "pickles" which requires each cell to have a cell command to pass to the caching function, and either add to cache or display
   - Also added 'force_run' to the top of every cell to easily set whether the cell needs to be run again
@@ -57,15 +53,15 @@ Had an issue when using variables generated dynamically (for example, getting 'e
   - All done, and added to templates.py
 - [ ] Make a way to import 'Actions' that are internal only (or just keep the Github repo private)
 
-### Bugs
+#### Bugs
 - [ ] In command_exe_* the error output when returned with result returns a tuple and looks bad in output. The new way I reformatted command syntax made the error text show the ssh comms output. Need to handle that better in case there is errors (or maybe its a non-issue, needs testing)
   - See the comment section in templates.py under command_exe_vm
 
 
-### InfraxSetup
+#### InfraxSetup
 - [ ] Add more options to read from file (depending on what information is available)
 - [ ] Finish functions on page
 - [ ] Create requests 'template' as multiple actions have webpage input
 
-### InitialRecon
+#### InitialRecon
 - [ ] Finish functions on page
