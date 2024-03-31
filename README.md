@@ -1,7 +1,7 @@
 # Blues Clues
 A collection of scripts/notebooks for setting up red team assessments using Jupyter Notebooks
 
-## Demo v.0.0.1
+## Demo v.1.1.0
 ![](Demo_20240317.gif)
 
 ## Setup
@@ -26,6 +26,7 @@ sudo visudo
 _Note: Definitely not best practice, added sudoer issue to bugs_  
 
 ## Considerations
+_BLUF:_ Handle output from each action carefully
 Had an issue when using variables generated dynamically (for example, getting 'ext_ip' and using in a subsequent cell) because a '\n' was appended to the end. I fixed this with a strip in the output, but unclear whether this should be handled on a case-by-case basis or if the newly created command format is handled poorly.
 
 ## Development
