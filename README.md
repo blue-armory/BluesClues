@@ -8,11 +8,22 @@ A collection of scripts/notebooks for setting up red team assessments using Jupy
 ### Interacting with VM
 First setup SSH on the VM to handle the key connection:  
 
-`ssh-keygen -t rsa -b 4096`  
-`ssh-keygen -p -m PEM -f /path/to/your/openssh_key`  
-_Ensure `PubkeyAuthentication yes` is uncommented in `/etc/ssh/sshd_config`_  
-`cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys`  
-`systemctl restart sshd`  
+```bash
+ssh-keygen -t rsa -b 4096
+ssh-keygen -p -m PEM -f /path/to/your/openssh_key
+#Ensure PubkeyAuthentication yes is uncommented in /etc/ssh/sshd_config  
+cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys
+systemctl restart sshd
+```
+### Configure sudoer permissions 
+```bash
+sudo visudo
+#Add <username> ALL=(ALL) NOPASSWD: ALL
+#CTRL+O
+#Enter
+#CTRL+X
+```
+_Note: Definitely not best practice, added sudoer issue to bugs_  
 
 ## Considerations
 Had an issue when using variables generated dynamically (for example, getting 'ext_ip' and using in a subsequent cell) because a '\n' was appended to the end. I fixed this with a strip in the output, but unclear whether this should be handled on a case-by-case basis or if the newly created command format is handled poorly.
@@ -26,7 +37,14 @@ Had an issue when using variables generated dynamically (for example, getting 'e
 ### Version v1.2.0
 - Added 'skip' option to 'Action Template'
 - Moved global variables and most functions to separate file to allow multiple page access
-- **Currently working on Domain Categorization in 'InfraxSetup' 3/23/24**
+
+### Version v1.2.1
+- Added `command_scp_put_vm` to templates.py to facilitate keeping a shared loot directory between Jupyter notebook and VM
+- Added `vm_loot_dir` to InfraxSetup. This decisions now somewhat forces InfraxSetup to be run first to initialize vm directory structure.
+- Added NMAP Basic and Robust alive scans to InitialRecon
+  - Lots of TODO and notes, and will need some trial and error testing
+- Started working on 'Loot' directory structure, currently supports creating '..._attack_surface' from NMAP Robust scan which should be able to be referenced in subsequent actions
+  - May need to add a separate Python file to manage loot
 
 
 ### TODO/Worklog
@@ -52,16 +70,23 @@ Had an issue when using variables generated dynamically (for example, getting 'e
   - Consider adding 'Actions' class and combining Windows/VM into same cell
   - All done, and added to templates.py
 - [ ] Make a way to import 'Actions' that are internal only (or just keep the Github repo private)
+- [ ] Add different action templates/reference functions for NMAP, Bloodhound, LDAP queries which have complex results/switches
+  - Might not be necessary, the actions are somewhat clean in InitialRecon
+- [ ] Its annoying having to run above cells in each notebook, consider adding all necessary imports into each action
 
 #### Bugs
 - [ ] In command_exe_* the error output when returned with result returns a tuple and looks bad in output. The new way I reformatted command syntax made the error text show the ssh comms output. Need to handle that better in case there is errors (or maybe its a non-issue, needs testing)
   - See the comment section in templates.py under command_exe_vm
+- [ ] Some nmap scans require root privs on VM, may need to add a check for privilege level on VM
+  - Added temporary fix to [configure sudo](#configure-sudoer-permissions) above
+
 
 
 #### InfraxSetup
 - [ ] Add more options to read from file (depending on what information is available)
 - [ ] Finish functions on page
 - [ ] Create requests 'template' as multiple actions have webpage input
+- [ ] Finish 'Domain Categorization' by incorporating [DomainCat](https://github.com/l0gan/domainCat) into actions
 
 #### InitialRecon
 - [ ] Finish functions on page

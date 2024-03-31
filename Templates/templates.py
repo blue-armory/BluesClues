@@ -1,6 +1,6 @@
 # Version 1.2.0
 # Imports
-import paramiko, os, datetime, subprocess, pickle
+import paramiko, os, datetime, subprocess, pickle, socket, scp
 
 # Global Variables
 var_target_ip = '127.0.0.1'
@@ -13,6 +13,7 @@ var_vm_port = 22
 var_vm_username = 'bloodvault'
 var_vm_password = ''
 var_vm_key = 'Keys/kali_dev'
+var_vm_lootdir = f'~/BluesClues/{var_assess_name}/loot'
 
 # Append to Log
 if not os.path.exists(var_log_location):
@@ -37,8 +38,16 @@ def command_exe_vm(command):
     # Connect to the VM
     if var_vm_key:
         key = paramiko.RSAKey.from_private_key_file(var_vm_key)
-        client.connect(hostname=var_vm_host, port=var_vm_port, username=var_vm_username, pkey=key)
+        try:
+            client.connect(hostname=var_vm_host, port=var_vm_port, username=var_vm_username, pkey=key)
+        except socket.error as e:
+            print(f'[!] Unable to connect to {var_vm_host} on {var_vm_port}, check if SSH is running')
+        except paramiko.SSHException as e:
+            print(f'[!] SSH Configuration Error: {e}')
+        except Exception as e:
+            print(f'[!] Unknown error: {e}')
     else:
+        # If ssh key isn't working or configured, connect via username/password
         client.connect(hostname=var_vm_host, port=var_vm_port, username=var_vm_username, password=var_vm_password)
     
     # Execute the command
@@ -57,6 +66,19 @@ def command_exe_vm(command):
     #    return output
     append_log('VM', command, output)
     return output
+
+def command_scp_put_vm(local_path, vm_path):
+    # Initialize the SSH client
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    key = paramiko.RSAKey.from_private_key_file(var_vm_key)
+    client.connect(hostname=var_vm_host, port=var_vm_port, username=var_vm_username, pkey=key)
+
+    scpclient = scp.SCPClient(client.get_transport())
+    scpclient.put(local_path, vm_path)
+    scpclient.close()
+    print(f'[*] File transferred to VM: {vm_path}')
 
 # Run Windows Commands Locally
 def command_exe_win(command):
@@ -118,6 +140,6 @@ def cache_command_output(cache_id, force_run, os_type, run_command):
 #cmd_os = ''
 
 #The cache and run function, no edits necessary
-#output = templates.cache_command_output(cmd_cache, force_run, cmd_run)
+#output = templates.cache_command_output(cmd_cache, force_run, cmd_os, cmd_syntax)
 
 #print(output)

@@ -2,6 +2,7 @@
 templates/Logs/*
 templates/Keys/*
 templates/Cache/*
+templates/Loot/nmap/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
