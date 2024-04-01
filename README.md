@@ -4,6 +4,10 @@ A collection of scripts/notebooks for setting up red team assessments using Jupy
 ## Demo v.1.1.0
 ![](Demo_20240317.gif)
 
+## Usage
+- For the most part, all actions should have all query parameters located at the top of each action
+- 
+
 ## Setup
 ### Interacting with VM
 First setup SSH on the VM to handle the key connection:  
@@ -46,7 +50,13 @@ Had an issue when using variables generated dynamically (for example, getting 'e
   - Lots of TODO and notes, and will need some trial and error testing
 - Started working on 'Loot' directory structure, currently supports creating '..._attack_surface' from NMAP Robust scan which should be able to be referenced in subsequent actions
   - May need to add a separate Python file to manage loot
+- Added nslookup and whois to InitialRecon
+  - Experimenting with using 'Loot' directory as a cache and intermediate between actions
+  - Need to begin testing with a more _assessment_ approach mindset and use global variables in `templates.py`
 
+### Version v1.2.2
+- Made each action per page more self contained, moving imports and other dependencies into each (just realized I essentially accomplished this in v1.2.0 but never updated pages)
+- Added 'Clear Cache and Outputs' to the top of `1.InfraxSetup` for development purpose (need to remember to clear before pushing and `Clear All Outputs` Jupyter option)
 
 ### TODO/Worklog
 #### General
@@ -74,6 +84,7 @@ Had an issue when using variables generated dynamically (for example, getting 'e
 - [ ] Add different action templates/reference functions for NMAP, Bloodhound, LDAP queries which have complex results/switches
   - Might not be necessary, the actions are somewhat clean in InitialRecon
 - [ ] Its annoying having to run above cells in each notebook, consider adding all necessary imports into each action
+- [ ] Consider adding visualization component to `2.InitialRecon` or to a `Loot` notebook for discovered assets
 
 #### Bugs
 - [ ] In command_exe_* the error output when returned with result returns a tuple and looks bad in output. The new way I reformatted command syntax made the error text show the ssh comms output. Need to handle that better in case there is errors (or maybe its a non-issue, needs testing)
@@ -85,7 +96,6 @@ Had an issue when using variables generated dynamically (for example, getting 'e
 
 #### InfraxSetup
 - [ ] Add more options to read from file (depending on what information is available)
-- [ ] Finish functions on page
 - [ ] Create requests 'template' as multiple actions have webpage input
 - [ ] Finish 'Domain Categorization' by incorporating [DomainCat](https://github.com/l0gan/domainCat) into actions
 

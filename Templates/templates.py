@@ -1,4 +1,4 @@
-# Version 1.2.0
+# Version 1.2.2
 # Imports
 import paramiko, os, datetime, subprocess, pickle, socket, scp
 

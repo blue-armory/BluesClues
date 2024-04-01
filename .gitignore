@@ -3,6 +3,8 @@ templates/Logs/*
 templates/Keys/*
 templates/Cache/*
 templates/Loot/nmap/*
+templates/Loot/whois/*
+templates/Loot/nslookup/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
