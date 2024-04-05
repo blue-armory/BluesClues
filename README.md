@@ -6,7 +6,6 @@ A collection of scripts/notebooks for setting up red team assessments using Jupy
 
 ## Usage
 - For the most part, all actions should have all query parameters located at the top of each action
-- 
 
 ## Setup
 ### Interacting with VM
@@ -57,6 +56,7 @@ Had an issue when using variables generated dynamically (for example, getting 'e
 ### Version v1.2.2
 - Made each action per page more self contained, moving imports and other dependencies into each (just realized I essentially accomplished this in v1.2.0 but never updated pages)
 - Added 'Clear Cache and Outputs' to the top of `1.InfraxSetup` for development purpose (need to remember to clear before pushing and `Clear All Outputs` Jupyter option)
+- Reorganized `2.InitialRecon` by moving NMAP to the bottom and added the rest of the skeleton commands to the outline
 
 ### TODO/Worklog
 #### General
@@ -98,6 +98,8 @@ Had an issue when using variables generated dynamically (for example, getting 'e
 - [ ] Add more options to read from file (depending on what information is available)
 - [ ] Create requests 'template' as multiple actions have webpage input
 - [ ] Finish 'Domain Categorization' by incorporating [DomainCat](https://github.com/l0gan/domainCat) into actions
+- [ ] Cleanup all TODO
+
 
 #### InitialRecon
-- [ ] Finish functions on page
+- [ ] Cleanup all TODO
